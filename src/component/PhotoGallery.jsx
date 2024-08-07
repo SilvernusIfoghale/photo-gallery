@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import like from "../../public/like.png";
+import { ClipLoader } from "react-spinners";
 
 export default function PhotoGallery() {
   const [photos, setPhotos] = useState();
   const [page, setPage] = useState(1);
+  const [loading, setIsLoading] = useState(false);
 
   const URL = "https://api.unsplash.com/photos";
   const API_KEY = "1SZPoIEiMsQKTbxOKwXYPyR167N8OtfJpcnBIHyVQfU";
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${URL}?page=${page}&per_page=15&client_id=${API_KEY}`)
       .then((res) => res.json())
       .then((data) => setPhotos(data));
+    setIsLoading(false);
   }, [page]);
 
   return (
     <>
-      <div className="w-full">
-        <div className="text-center text-5xl font-bold my-10">
+      <div className="w-full relative">
+        <div className="text-center text-5xl font-bold my-10 bg-blue-200 py-8">
           Photo Gallery
         </div>
+        {loading && (
+          <ClipLoader size={130} className="absolute top-32 left-[50%]" />
+        )}
         <div className="grid grid-cols-1  sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5 place-items-center w-full">
           {photos?.map((photo, index) => (
             <div
