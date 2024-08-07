@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import like from "../../public/like.png";
 
 export default function PhotoGallery() {
+  const [photos, setPhotos] = useState();
+  const [page, setPage] = useState(1);
+
+  const URL = "https://api.unsplash.com/photos";
+  const API_KEY = "1SZPoIEiMsQKTbxOKwXYPyR167N8OtfJpcnBIHyVQfU";
   return (
     <>
       <div className="w-full">
