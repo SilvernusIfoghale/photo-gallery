@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import like from "../../public/like.png";
 
 export default function PhotoGallery() {
@@ -7,6 +7,13 @@ export default function PhotoGallery() {
 
   const URL = "https://api.unsplash.com/photos";
   const API_KEY = "1SZPoIEiMsQKTbxOKwXYPyR167N8OtfJpcnBIHyVQfU";
+
+  useEffect(() => {
+    fetch(`${URL}?page=${page}&per_page=15&client_id=${API_KEY}`)
+      .then((res) => res.json())
+      .then((data) => setPhotos(data));
+  }, [page]);
+
   return (
     <>
       <div className="w-full">
@@ -48,6 +55,32 @@ export default function PhotoGallery() {
             </div>
           ))}
         </div>
+        {photos && (
+          <div className="text-center mb-11 mt-3">
+            {page > 1 ? (
+              <button
+                onClick={() => setPage(page - 1)}
+                className="bg-blue-500 text-white font-semibold h-10 w-28 mx-3 rounded-lg"
+              >
+                Previous
+              </button>
+            ) : (
+              <button
+                disabled
+                className="bg-blue-300 text-white font-semibold h-10 w-28 mx-3 rounded-lg"
+              >
+                Previous
+              </button>
+            )}
+
+            <button
+              onClick={() => setPage(page + 1)}
+              className="bg-blue-500 text-white font-semibold h-10 w-28 mx-3 rounded-lg"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
